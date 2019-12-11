@@ -2,14 +2,14 @@
 :Email: {AuthorEmail}
 :Date: 15/11/2019
 :Revision: version Beta 1.0
-:License: Public Domain
+:License: Public Domain (MIT License / CC BY-SA / MyTja License
 
-= Project: {Project}
+= Project: PowerOS
 
 Describe your project
 
 == Step 1: Installation
-Please describe the steps to install this project.
+Upload all the code to Arduino and you are done
 
 For example:
 
@@ -19,7 +19,7 @@ For example:
 
 == Step 2: Assemble the circuit
 
-Assemble the circuit following the diagram layout.png attached to the sketch
+Assemble is as your own imagination
 
 == Step 3: Load the code
 
