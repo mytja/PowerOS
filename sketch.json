@@ -1,1 +1,1 @@
-{"cpu":{"architecture":"avr","fqbn":"arduino:avr:nano:cpu=atmega328","href":"/v3/boards/arduino:avr:nano","id":"nano","menus":[{"id":"cpu","name":"Processor","variants":[{"id":"atmega328","name":"ATmega328P"},{"id":"atmega328old","name":"ATmega328P (Old Bootloader)"},{"id":"atmega168","name":"ATmega168"}]}],"name":"Arduino Nano","package":"arduino","plan":"create-free","com_name":null,"unknown":false},"secrets":[]}
+{"cpu":{"fqbn":"arduino:avr:nano:cpu=atmega328","name":"Arduino Nano","port":""},"secrets":[]}

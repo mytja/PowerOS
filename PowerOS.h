@@ -12,6 +12,9 @@ Adafruit_SSD1306 display(-1);
 #define YELLOW 0xFFE0
 #define BLUE 0x001F
 
+
+int game = 1;
+int cursor = 1;
 int led = 6;
 
 
@@ -148,14 +151,14 @@ void main5(){
 }
 
 void pgames(){
-  display.setCursor(64, 20);
-  display.setTextColor(BLUE);
   display.setTextSize(3);
-  display.print("PGames");
-  display.setTextSize(1);
+  display.setTextColor(BLUE);
+  display.setCursor(64, 10);
+  display.print("Welcome to PGames Game Selector!");
   display.setTextColor(YELLOW);
-  display.setCursor(64, 46);
-  display.print("Comming soon!");
+  display.setTextSize(1);
+  display.setCursor(64, 20);
+  display.print("Game1");
   display.display();
   currentState = 7;
 }
