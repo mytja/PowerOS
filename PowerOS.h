@@ -171,9 +171,9 @@ void about(){
   display.setCursor(64, 0);
   display.print("copyright MyTja");
   display.setCursor(0, 35);
-  display.print("Language: C");
+  display.print("Language: Arduino C");
   display.setCursor(0, 43);
-  display.print("version Alpha 0.1");
+  display.print("version 1.0.1");
   display.setCursor(0, 50);
   display.print("www.mytja.tk");
   display.display();
@@ -190,7 +190,7 @@ void psettings(){
   display.setCursor(0, 10);
   display.print("Language: English (UK)");
   display.setCursor(0, 20);
-  display.print("License: Advanced");
+  display.print("License: Open-source");
   display.setCursor(0, 30);
   display.print("Wireless charging: OFF");
   currentState = 10;
