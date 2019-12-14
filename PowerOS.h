@@ -12,7 +12,7 @@ Adafruit_SSD1306 display(-1);
 #define YELLOW 0xFFE0
 #define BLUE 0x001F
 
-
+int state = 1;
 int game = 1;
 int cursor = 1;
 int led = 6;
@@ -173,7 +173,7 @@ void about(){
   display.setCursor(0, 35);
   display.print("Language: Arduino C");
   display.setCursor(0, 43);
-  display.print("version 1.0.1");
+  display.print("version 1.0.2");
   display.setCursor(0, 50);
   display.print("www.mytja.tk");
   display.display();
@@ -193,5 +193,32 @@ void psettings(){
   display.print("License: Open-source");
   display.setCursor(0, 30);
   display.print("Wireless charging: OFF");
+  display.display();
   currentState = 10;
+}
+
+void planguage(){
+  display.clearDisplay();
+  display.setTextSize(1);
+  display.setTextColor(YELLOW);
+  display.setCursor(0, 0);
+  display.print("English (UK)");
+  display.display();
+  currentState = 11;
+}
+
+void wirelessch(){
+  display.clearDisplay();
+  display.setTextSize(2);
+  display.setTextColor(BLUE);
+  display.setCursor(0, 0);
+  display.print("Wireless charging");
+  display.setTextSize(1);
+  display.setTextColor(YELLOW);
+  display.setCursor(0, 20);
+  display.print("OFF");
+  display.setCursor(0, 30);
+  display.print("ON");
+  display.display();
+  currentState = 12;
 }
