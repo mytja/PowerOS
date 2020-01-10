@@ -4,107 +4,84 @@
 #define OLED_ADDR   0x3C
 Adafruit_SSD1306 display(-1);
 #include <Wire.h>
-#define BATTERY_MODE_SOLID 1
-#define CHARGE_AREA_START_X     20
-#define CHARGE_AREA_START_Y     18
-#define CHARGE_AREA_WIDTH       83
-#define CHARGE_AREA_HEIGHT      28
-#define YELLOW 0xFFE0
-#define BLUE 0x001F
+#include <SPI.h>
+
+int analogBattery = 1;
+float percent = (analogRead(analogBattery)/255)*100;
+
+char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+int year;
+int month;
+int day;
+int hour;
+int min;
+int sec;
+char dayofweek;
 
 int state = 1;
 int game = 1;
 int cursor = 1;
 int led = 6;
-
-
-void showBatteryLevel(uint8_t percent)
-{
-    uint8_t width;
-
-    if (percent > 100)
-        percent = 100;
-
-    display.clearDisplay();
-    display.drawBitmap(0, 0, battery_bitmap, 128, 64, WHITE);
-
-    if (BATTERY_MODE_SOLID)
-    {
-        width = (percent * CHARGE_AREA_WIDTH) / 100;
-        display.drawRect(CHARGE_AREA_START_X, CHARGE_AREA_START_Y, width, CHARGE_AREA_HEIGHT, WHITE);
-    } else {
-        uint8_t bars;
-        
-        if (percent >= 66)
-        {
-            // Show three bars
-            bars = 3;
-        } else if (percent >= 33)
-        {
-            // Show two bars
-            bars = 2;
-        } else if (percent > 0)
-        {
-            // Show one bar
-            bars = 1;
-        } else {
-            // Show nothing
-            bars = 0;
-        }
-
-        uint8_t offset = CHARGE_AREA_START_X;
-        for (uint8_t i = 0; i < bars; i++)
-        {
-            display.drawRect(offset, CHARGE_AREA_START_Y, 27, CHARGE_AREA_HEIGHT, WHITE);
-            offset += 28;
-        }
-    }
-
-    display.display();
-}
-int percent = 100;
 int currentState = 0;
+
+void main0(){
+  display.clearDisplay();
+  display.setTextSize(2);
+  display.setTextColor(WHITE);
+  display.setCursor(0, 0);
+  display.print(hour);
+  display.setCursor(30, 0);
+  display.print(":");
+  display.setCursor(40, 0);
+  display.print(min);
+  display.setTextSize(1);
+  display.setCursor(20, 16);
+  display.print(dayofweek);
+  display.setCursor(20, 24);
+  display.print(day);
+  display.setCursor(35, 24);
+  display.print(month);
+  display.setCursor(50, 24);
+  display.print(year);
+  display.display();
+  currentState = 0;
+}
 
 void main1(){
   display.clearDisplay();
-  showBatteryLevel(percent);
-    
-  if (percent){
-    percent--;
-  }
-  else{
-    percent = 100;
-  }
-  delay(50);
+  display.setTextSize(2);
+  display.setTextColor(WHITE);
+  display.setCursor(0, 10);
+  display.print("Battery");
   display.display();
   currentState = 1;
 }
 
 void startup(){
-  display.begin(SSD1306_SWITCHCAPVCC, 0x3D); //or 0x3C
+  display.begin(SSD1306_SWITCHCAPVCC, 0x3C); //or 0x3C
   display.clearDisplay(); //for Clearing the display
-  display.drawBitmap(0, 0, poweros_logo, 32, 64, BLUE); // display.drawBitmap(x position, y position, bitmap data, bitmap width, bitmap height, color)
-  display.setTextSize(3);
-  display.setTextColor(YELLOW);
-  display.setCursor(40, 32);
+  display.drawBitmap(0, 0, poweros_logo, 16, 32, WHITE); // display.drawBitmap(x position, y position, bitmap data, bitmap width, bitmap height, color)
+  display.setTextSize(2);
+  display.setTextColor(WHITE);
+  display.setCursor(20, 10);
   display.print("PowerOS");
   display.setTextSize(1);
   
   display.setCursor(40, 50);
   display.print("Loading");
   display.display();
-  currentState = 0;
+  currentState = -1;
   delay(3000);
-  main1();
+  main0();
   
 }
 
 void main2(){
   display.clearDisplay();
-  display.drawBitmap(0, 0, poweros_logo, 32, 64, BLUE);
+  display.drawBitmap(0, 0, poweros_logo, 16, 32, WHITE);
   display.setTextSize(3);
-  display.setTextColor(YELLOW);
-  display.setCursor(40, 32);
+  display.setTextColor(WHITE);
+  display.setCursor(20, 5);
   display.print("PGames");
   display.display();
   currentState = 2;
@@ -112,10 +89,10 @@ void main2(){
 
 void main3(){
   display.clearDisplay();
-  display.drawBitmap(0, 0, poweros_logo, 32, 64, BLUE);
+  display.drawBitmap(0, 0, poweros_logo, 16, 32, WHITE);
   display.setTextSize(3);
-  display.setTextColor(YELLOW);
-  display.setCursor(40, 32);
+  display.setTextColor(WHITE);
+  display.setCursor(20, 5);
   display.print("ABOUT");
   display.display();
   currentState = 3;
@@ -123,13 +100,13 @@ void main3(){
 
 void main4(){
   display.clearDisplay();
-  display.drawBitmap(0, 0, poweros_logo, 64, 32, BLUE);
+  display.drawBitmap(0, 0, poweros_logo, 16, 32, WHITE);
   display.setTextSize(1);
-  display.setTextColor(YELLOW);
-  display.setCursor(64, 32);
+  display.setTextColor(WHITE);
+  display.setCursor(20, 0);
   display.print("FLASHLIGHT");
   display.display();
-  display.setCursor(110, 46);
+  display.setCursor(20, 8);
   if (digitalRead(led)==HIGH){
     display.print("ON");
   }
@@ -141,23 +118,25 @@ void main4(){
 
 void main5(){
   display.clearDisplay();
-  display.drawBitmap(0, 0, poweros_logo, 96, 32, BLUE);
-  display.setTextSize(1);
-  display.setTextColor(YELLOW);
-  display.setCursor(64, 46);
+  display.drawBitmap(0, 0, poweros_logo, 16, 32, WHITE);
+  display.setTextSize(2);
+  display.setTextColor(WHITE);
+  display.setCursor(20, 8);
   display.print("SETTINGS");
   display.display();
   currentState = 5;
 }
 
+
+
 void pgames(){
-  display.setTextSize(3);
-  display.setTextColor(BLUE);
-  display.setCursor(64, 10);
-  display.print("Welcome to PGames Game Selector!");
-  display.setTextColor(YELLOW);
+  display.clearDisplay();
   display.setTextSize(1);
-  display.setCursor(64, 20);
+  display.setTextColor(WHITE);
+  display.setCursor(0, 0);
+  display.print("PGames Game Selector");
+  display.setTextSize(1);
+  display.setCursor(0, 8);
   display.print("Game1");
   display.display();
   currentState = 7;
@@ -165,16 +144,16 @@ void pgames(){
 
 void about(){
   display.clearDisplay();
-  display.drawBitmap(0, 0, poweros_logo, 64, 32, BLUE);
+  display.drawBitmap(0, 0, poweros_logo, 16, 32, WHITE);
   display.setTextSize(1);
-  display.setTextColor(YELLOW);
-  display.setCursor(64, 0);
-  display.print("copyright MyTja");
-  display.setCursor(0, 35);
-  display.print("Language: Arduino C");
-  display.setCursor(0, 43);
-  display.print("version 1.0.2");
-  display.setCursor(0, 50);
+  display.setTextColor(WHITE);
+  display.setCursor(20, 0);
+  display.print("c MyTja");
+  display.setCursor(20, 8);
+  display.print("Arduino");
+  display.setCursor(20, 16);
+  display.print("v1.0.3.1");
+  display.setCursor(20, 24);
   display.print("www.mytja.tk");
   display.display();
   currentState = 8;
@@ -183,16 +162,15 @@ void about(){
 void psettings(){
   display.clearDisplay();
   display.setTextSize(1);
-  display.setTextColor(BLUE);
+  display.setTextColor(WHITE);
   display.setCursor(0, 0);
   display.print("PSettings");
-  display.setTextColor(YELLOW);
-  display.setCursor(0, 10);
-  display.print("Language: English (UK)");
-  display.setCursor(0, 20);
+  display.setCursor(0, 8);
+  display.print("Language:English (UK)");
+  display.setCursor(0, 16);
   display.print("License: Open-source");
-  display.setCursor(0, 30);
-  display.print("Wireless charging: OFF");
+  display.setCursor(0, 24);
+  display.print("Wireless charging:OFF");
   display.display();
   currentState = 10;
 }
@@ -200,7 +178,7 @@ void psettings(){
 void planguage(){
   display.clearDisplay();
   display.setTextSize(1);
-  display.setTextColor(YELLOW);
+  display.setTextColor(WHITE);
   display.setCursor(0, 0);
   display.print("English (UK)");
   display.display();
@@ -209,16 +187,34 @@ void planguage(){
 
 void wirelessch(){
   display.clearDisplay();
-  display.setTextSize(2);
-  display.setTextColor(BLUE);
+  display.setTextSize(1);
+  display.setTextColor(WHITE);
   display.setCursor(0, 0);
   display.print("Wireless charging");
-  display.setTextSize(1);
-  display.setTextColor(YELLOW);
-  display.setCursor(0, 20);
+  display.setCursor(0, 16);
   display.print("OFF");
-  display.setCursor(0, 30);
+  display.setCursor(0, 24);
   display.print("ON");
   display.display();
   currentState = 12;
 }
+
+void pbattery(){
+  display.clearDisplay();
+  display.setTextSize(1);
+  display.setTextColor(WHITE);
+  display.setCursor(0, 0);
+  display.print("Battery");
+  display.setCursor(0, 8);
+  display.print("Charged:");
+  display.setCursor(55, 8);
+  display.print(percent);
+  display.setCursor(80, 8);
+  display.print("%");
+  display.setCursor(0, 16);
+  display.print("Battery life: Cannot measure");
+  display.display();
+  currentState = 13;
+}
+
+
