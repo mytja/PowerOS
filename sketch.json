@@ -1,7 +1,7 @@
 {
   "cpu": {
-    "fqbn": "arduino:avr:mega:cpu=atmega2560",
-    "name": "Arduino Mega 2560",
+    "fqbn": "arduino:avr:nano:cpu=atmega328old",
+    "name": "Arduino Nano",
     "type": "serial"
   },
   "secrets": [],
