@@ -152,7 +152,7 @@ void about(){
   display.setCursor(20, 8);
   display.print("Arduino");
   display.setCursor(20, 16);
-  display.print("v1.0.3.1");
+  display.print("v1.0.3.3");
   display.setCursor(20, 24);
   display.print("www.mytja.tk");
   display.display();
