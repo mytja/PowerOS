@@ -6,7 +6,7 @@ Adafruit_SSD1306 display(-1);
 #include <Wire.h>
 #include <SPI.h>
 
-int analogBattery = 1;
+int analogBattery = A1;
 float percent = (analogRead(analogBattery)/255)*100;
 
 char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
@@ -21,7 +21,7 @@ char dayofweek;
 int state = 1;
 int game = 1;
 int cursor = 1;
-int led = 6;
+int led = 9;
 int currentState = 0;
 
 void main0(){
@@ -152,7 +152,7 @@ void about(){
   display.setCursor(20, 8);
   display.print("Arduino");
   display.setCursor(20, 16);
-  display.print("v1.0.3.1");
+  display.print("Guinea 1.0.3.4");
   display.setCursor(20, 24);
   display.print("www.mytja.tk");
   display.display();
@@ -200,6 +200,7 @@ void wirelessch(){
 }
 
 void pbattery(){
+  percent = (analogRead(analogBattery)/255)*100;
   display.clearDisplay();
   display.setTextSize(1);
   display.setTextColor(WHITE);

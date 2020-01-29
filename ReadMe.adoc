@@ -2,7 +2,7 @@
 :Email: mamnju21@gmail.com
 :Email: mytja.ltd@gmail.com
 :Date: 15/11/2019
-:Revision: version Beta 1.0.2
+:Revision: version Guinea Pig 1.0.3.4
 :License: MIT License/MyTja License/CC BY-SA 4.0
 
 = Project: PowerOS
@@ -20,7 +20,8 @@ For example:
 
 == Step 2: Assemble the circuit
 
-No assembely diagram
+PowerOS_schematic.jpg
+Last updated: 29/01/2020
 
 == Step 3: Load the code
 
@@ -45,13 +46,13 @@ To contribute to this project please contact Mitjas https://id.arduino.cc/Mitjas
 === BOM
 Bill of Materials!
 This are minimum of materials that you need.
-Arduino can be used with every gen. that is better than 328p, including 328p
+Arduino can be used with every gen, that is better than 328p, including 328p
 
 |===
 | ID | Part name                  |Part number| Quantity
 | O1 | OLED 0.96" yellow-blue     | OLED-1    | 1
-| L1 | Buttons                    | BTN-111   | 4
-| A1 | Min. Arduino Pro Mini      | ARD-NpmU  | 1
+| L1 | Buttons                    | BTN-1     | 4
+| A1 | Min. Arduino Pro Mini      | uC1       | 1
 |===
 
 
