@@ -5,6 +5,7 @@
 Adafruit_SSD1306 display(-1);
 #include <Wire.h>
 #include <SPI.h>
+#include "Pong.h"
 
 int analogBattery = A1;
 float percent = (analogRead(analogBattery)/255)*100;
@@ -137,6 +138,8 @@ void pgames(){
   display.print("PGames Game Selector");
   display.setTextSize(1);
   display.setCursor(0, 8);
+  display.print("Pong Multiplayer");
+  display.setCursor(0, 16);
   display.print("Game1");
   display.display();
   currentState = 7;
@@ -152,7 +155,7 @@ void about(){
   display.setCursor(20, 8);
   display.print("Arduino");
   display.setCursor(20, 16);
-  display.print("Guinea 1.0.3.5");
+  display.print("Guinea 1.0.4");
   display.setCursor(20, 24);
   display.print("www.mytja.tk");
   display.display();
