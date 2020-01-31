@@ -105,7 +105,6 @@ void main4(){
   display.setTextColor(WHITE);
   display.setCursor(20, 0);
   display.print("FLASHLIGHT");
-  display.display();
   display.setCursor(20, 8);
   if (digitalRead(led)==HIGH){
     display.print("ON");
@@ -113,6 +112,7 @@ void main4(){
   else{
     display.print("OFF");
   }
+  display.display();
   currentState = 4;
 }
 
@@ -152,7 +152,7 @@ void about(){
   display.setCursor(20, 8);
   display.print("Arduino");
   display.setCursor(20, 16);
-  display.print("Guinea 1.0.3.4");
+  display.print("Guinea 1.0.3.5");
   display.setCursor(20, 24);
   display.print("www.mytja.tk");
   display.display();
@@ -210,7 +210,7 @@ void pbattery(){
   display.print("Charged:");
   display.setCursor(55, 8);
   display.print(percent);
-  display.setCursor(80, 8);
+  display.setCursor(100, 8);
   display.print("%");
   display.setCursor(0, 16);
   display.print("Battery life: Cannot measure");
@@ -218,4 +218,14 @@ void pbattery(){
   currentState = 13;
 }
 
-
+void plicense(){
+  display.clearDisplay();
+  display.setTextSize(1);
+  display.setTextColor(WHITE);
+  display.setCursor(0, 0);
+  display.print("License");
+  display.setCursor(0, 8);
+  display.print("Open-source");
+  display.display();
+  currentState = 14;
+}
