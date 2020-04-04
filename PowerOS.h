@@ -7,8 +7,8 @@ Adafruit_SSD1306 display(-1);
 #include <SPI.h>
 #include "Pong.h"
 
-int analogBattery = A1;
-float percent = (analogRead(analogBattery)/255)*100;
+byte analogBattery = analogRead(A1);
+int percent = (analogBattery/255)*100;
 
 char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 int year;
@@ -49,6 +49,9 @@ void main0(){
 }
 
 void main1(){
+  analogBattery = analogRead(A1);
+  percent = (analogBattery / 255.0) * 100;
+  Serial.println(percent);
   display.clearDisplay();
   display.setTextSize(2);
   display.setTextColor(WHITE);
@@ -59,6 +62,7 @@ void main1(){
 }
 
 void startup(){
+  Serial.begin(9600);
   display.begin(SSD1306_SWITCHCAPVCC, 0x3C); //or 0x3C
   display.clearDisplay(); //for Clearing the display
   display.drawBitmap(0, 0, poweros_logo, 16, 32, WHITE); // display.drawBitmap(x position, y position, bitmap data, bitmap width, bitmap height, color)
@@ -155,7 +159,7 @@ void about(){
   display.setCursor(20, 8);
   display.print("Arduino");
   display.setCursor(20, 16);
-  display.print("Guinea 1.0.4");
+  display.print("Guinea 1.0.5");
   display.setCursor(20, 24);
   display.print("www.mytja.tk");
   display.display();
@@ -203,7 +207,9 @@ void wirelessch(){
 }
 
 void pbattery(){
-  percent = (analogRead(analogBattery)/255)*100;
+  analogBattery = analogRead(A1);
+  percent = (analogBattery / 255.0) * 100;
+  Serial.println(percent);
   display.clearDisplay();
   display.setTextSize(1);
   display.setTextColor(WHITE);
@@ -231,4 +237,34 @@ void plicense(){
   display.print("Open-source");
   display.display();
   currentState = 14;
+}
+
+void overVoltage(){
+  currentState = 15;
+  display.clearDisplay();
+  display.setTextSize(1);
+  display.setTextColor(WHITE);
+  display.setCursor(0, 0);
+  display.print("Overvoltage!");
+  display.setCursor(0, 8);
+  display.print("Turn off your device!");
+  display.setCursor(0, 24);
+  display.print("Thank you!");
+  
+}
+
+void underVoltage(){
+  currentState = 16;
+  display.clearDisplay();
+  display.setTextSize(1);
+  display.setTextColor(WHITE);
+  display.setCursor(0, 0);
+  display.print("Undervoltage detected!");
+  display.setCursor(0, 8);
+  display.print("PowerOS detected too low voltage!");
+  display.setCursor(0, 16);
+  display.print("Turn your device off to prevent damage!");
+  display.setCursor(0, 24);
+  display.print("Thank you!");
+  
 }
