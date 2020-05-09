@@ -6,6 +6,8 @@ Adafruit_SSD1306 display(-1);
 #include <Wire.h>
 #include <SPI.h>
 #include "Pong.h"
+#include "Nano_bird.h"
+#include "nanoBird_img.h"
 
 byte analogBattery = analogRead(A1);
 int percent = (analogBattery/255)*100;
@@ -18,6 +20,8 @@ int hour;
 int min;
 int sec;
 char dayofweek;
+
+char versionOfPowerOS = "1.1";  // This string is not in use yet
 
 int state = 1;
 int game = 1;
@@ -63,7 +67,7 @@ void main1(){
 
 void startup(){
   Serial.begin(9600);
-  display.begin(SSD1306_SWITCHCAPVCC, 0x3C); //or 0x3C
+  display.begin(SSD1306_SWITCHCAPVCC, 0x3C); //or 0x3D
   display.clearDisplay(); //for Clearing the display
   display.drawBitmap(0, 0, poweros_logo, 16, 32, WHITE); // display.drawBitmap(x position, y position, bitmap data, bitmap width, bitmap height, color)
   display.setTextSize(2);
@@ -144,6 +148,8 @@ void pgames(){
   display.setCursor(0, 8);
   display.print("Pong Multiplayer");
   display.setCursor(0, 16);
+  display.print("Nano bird");
+  display.setCursor(0, 24);
   display.print("Game1");
   display.display();
   currentState = 7;
@@ -159,7 +165,7 @@ void about(){
   display.setCursor(20, 8);
   display.print("Arduino");
   display.setCursor(20, 16);
-  display.print("Guinea 1.0.5");
+  display.print("Guinea 1.1");
   display.setCursor(20, 24);
   display.print("www.mytja.tk");
   display.display();
@@ -250,7 +256,7 @@ void overVoltage(){
   display.print("Turn off your device!");
   display.setCursor(0, 24);
   display.print("Thank you!");
-  
+  display.display();
 }
 
 void underVoltage(){
@@ -259,12 +265,10 @@ void underVoltage(){
   display.setTextSize(1);
   display.setTextColor(WHITE);
   display.setCursor(0, 0);
-  display.print("Undervoltage detected!");
+  display.print("Undervoltage!");
   display.setCursor(0, 8);
-  display.print("PowerOS detected too low voltage!");
-  display.setCursor(0, 16);
-  display.print("Turn your device off to prevent damage!");
+  display.print("Turn your device off!");
   display.setCursor(0, 24);
   display.print("Thank you!");
-  
+  display.display();
 }
