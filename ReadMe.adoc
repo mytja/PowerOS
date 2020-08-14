@@ -2,7 +2,7 @@
 :Email: mamnju21@gmail.com
 :Email: mytja.ltd@gmail.com
 :Date: 15/11/2019
-:Revision: version Beta 1.0.3.2
+:Revision: version Guinea Pig 1.0.3.4
 :License: MIT License/MyTja License/CC BY-SA 4.0
 
 = Project: PowerOS
@@ -20,7 +20,8 @@ For example:
 
 == Step 2: Assemble the circuit
 
-No assembely diagram
+PowerOS_schematic.jpg
+Last updated: 29/01/2020
 
 == Step 3: Load the code
 
