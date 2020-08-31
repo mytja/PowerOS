@@ -10,7 +10,7 @@ Adafruit_SSD1306 display(-1);
 #include "nanoBird_img.h"
 
 byte analogBattery = analogRead(A1);
-int percent = (analogBattery/255)*100;
+int percent = map(analogBattery, 512, 863, 0, 100);
 
 char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 int year;
@@ -214,7 +214,7 @@ void wirelessch(){
 
 void pbattery(){
   analogBattery = analogRead(A1);
-  percent = (analogBattery / 255.0) * 100;
+  percent = map(analogBattery, 512, 863, 0, 100);
   Serial.println(percent);
   display.clearDisplay();
   display.setTextSize(1);
