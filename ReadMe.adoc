@@ -2,7 +2,7 @@
 :Email: mamnju21@gmail.com
 :Email: mytja.ltd@gmail.com
 :Date: 15/11/2019
-:Revision: version Guinea Pig 1.0.3.4
+:Revision: version Beta 1.1
 :License: MIT License/MyTja License/CC BY-SA 4.0
 
 = Project: PowerOS
