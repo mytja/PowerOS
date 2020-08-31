@@ -34,7 +34,7 @@ void setup() {
 
 void loop() {
   analogBattery = analogRead(A1);
-  percent = (analogBattery / 255.0) * 100;
+  percent = map(analogBattery, 512, 863, 0, 100);
   if (gameChosen == 1){
     if (digitalRead(left_button) == HIGH){
       controllerValue1 = controllerValue1 - 15;
