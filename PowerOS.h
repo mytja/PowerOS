@@ -5,9 +5,12 @@
 Adafruit_SSD1306 display(-1);
 #include <Wire.h>
 #include <SPI.h>
+#include "Pong.h"
+#include "Nano_bird.h"
+#include "nanoBird_img.h"
 
-int analogBattery = 1;
-float percent = (analogRead(analogBattery)/255)*100;
+byte analogBattery = analogRead(A1);
+int percent = (analogBattery/255)*100;
 
 char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 int year;
@@ -18,10 +21,12 @@ int min;
 int sec;
 char dayofweek;
 
+char versionOfPowerOS = "1.1";  // This string is not in use yet
+
 int state = 1;
 int game = 1;
 int cursor = 1;
-int led = 6;
+int led = 9;
 int currentState = 0;
 
 void main0(){
@@ -48,6 +53,9 @@ void main0(){
 }
 
 void main1(){
+  analogBattery = analogRead(A1);
+  percent = (analogBattery / 255.0) * 100;
+  Serial.println(percent);
   display.clearDisplay();
   display.setTextSize(2);
   display.setTextColor(WHITE);
@@ -58,7 +66,8 @@ void main1(){
 }
 
 void startup(){
-  display.begin(SSD1306_SWITCHCAPVCC, 0x3C); //or 0x3C
+  Serial.begin(9600);
+  display.begin(SSD1306_SWITCHCAPVCC, 0x3C); //or 0x3D
   display.clearDisplay(); //for Clearing the display
   display.drawBitmap(0, 0, poweros_logo, 16, 32, WHITE); // display.drawBitmap(x position, y position, bitmap data, bitmap width, bitmap height, color)
   display.setTextSize(2);
@@ -105,7 +114,6 @@ void main4(){
   display.setTextColor(WHITE);
   display.setCursor(20, 0);
   display.print("FLASHLIGHT");
-  display.display();
   display.setCursor(20, 8);
   if (digitalRead(led)==HIGH){
     display.print("ON");
@@ -113,6 +121,7 @@ void main4(){
   else{
     display.print("OFF");
   }
+  display.display();
   currentState = 4;
 }
 
@@ -137,6 +146,10 @@ void pgames(){
   display.print("PGames Game Selector");
   display.setTextSize(1);
   display.setCursor(0, 8);
+  display.print("Pong Multiplayer");
+  display.setCursor(0, 16);
+  display.print("Nano bird");
+  display.setCursor(0, 24);
   display.print("Game1");
   display.display();
   currentState = 7;
@@ -152,7 +165,7 @@ void about(){
   display.setCursor(20, 8);
   display.print("Arduino");
   display.setCursor(20, 16);
-  display.print("v1.0.3.3");
+  display.print("Beta 1.1");
   display.setCursor(20, 24);
   display.print("www.mytja.tk");
   display.display();
@@ -200,6 +213,9 @@ void wirelessch(){
 }
 
 void pbattery(){
+  analogBattery = analogRead(A1);
+  percent = (analogBattery / 255.0) * 100;
+  Serial.println(percent);
   display.clearDisplay();
   display.setTextSize(1);
   display.setTextColor(WHITE);
@@ -209,7 +225,7 @@ void pbattery(){
   display.print("Charged:");
   display.setCursor(55, 8);
   display.print(percent);
-  display.setCursor(80, 8);
+  display.setCursor(100, 8);
   display.print("%");
   display.setCursor(0, 16);
   display.print("Battery life: Cannot measure");
@@ -217,4 +233,42 @@ void pbattery(){
   currentState = 13;
 }
 
+void plicense(){
+  display.clearDisplay();
+  display.setTextSize(1);
+  display.setTextColor(WHITE);
+  display.setCursor(0, 0);
+  display.print("License");
+  display.setCursor(0, 8);
+  display.print("Open-source");
+  display.display();
+  currentState = 14;
+}
 
+void overVoltage(){
+  currentState = 15;
+  display.clearDisplay();
+  display.setTextSize(1);
+  display.setTextColor(WHITE);
+  display.setCursor(0, 0);
+  display.print("Overvoltage!");
+  display.setCursor(0, 8);
+  display.print("Turn off your device!");
+  display.setCursor(0, 24);
+  display.print("Thank you!");
+  display.display();
+}
+
+void underVoltage(){
+  currentState = 16;
+  display.clearDisplay();
+  display.setTextSize(1);
+  display.setTextColor(WHITE);
+  display.setCursor(0, 0);
+  display.print("Undervoltage!");
+  display.setCursor(0, 8);
+  display.print("Turn your device off!");
+  display.setCursor(0, 24);
+  display.print("Thank you!");
+  display.display();
+}
