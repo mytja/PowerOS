@@ -8,6 +8,13 @@ Adafruit_SSD1306 display(-1);
 #include "Pong.h"
 #include "Nano_bird.h"
 #include "nanoBird_img.h"
+#include <DallasTemperature.h>
+#include <OneWire.h>
+
+const int Temp1 = 9;
+
+OneWire temp1(Temp1);
+DallasTemperature sensors(&temp1);
 
 byte analogBattery = analogRead(A1);
 int percent = (analogBattery/255)*100;
@@ -28,6 +35,11 @@ int game = 1;
 int cursor = 1;
 int led = 9;
 int currentState = 0;
+int timer;
+
+void wakeUp() {
+  timer = 0;
+}
 
 void main0(){
   display.clearDisplay();
@@ -136,7 +148,21 @@ void main5(){
   currentState = 5;
 }
 
-
+void main6(){
+  display.clearDisplay();
+  display.drawBitmap(0, 0, poweros_logo, 16, 32, WHITE);
+  display.setTextSize(2);
+  display.setTextColor(WHITE);
+  display.setCursor(20, 0);
+  display.print("PTemp");
+  display.setTextSize(1);
+  display.setCursor(20, 16);
+  display.print("Temp of battery");
+  display.setCursor(20, 24);
+  display.print(sensors.getTempCByIndex(0));
+  display.display();
+  currentState = 6;
+}
 
 void pgames(){
   display.clearDisplay();
@@ -165,7 +191,7 @@ void about(){
   display.setCursor(20, 8);
   display.print("Arduino");
   display.setCursor(20, 16);
-  display.print("Beta 1.1");
+  display.print("Guinea 1.1.2");
   display.setCursor(20, 24);
   display.print("www.mytja.tk");
   display.display();

@@ -2,7 +2,7 @@
 #include <Adafruit_SSD1306.h>
 #include <splash.h>
 #include "PowerOS.h"
-#include <SPI.h>
+#include <LowPower.h>
 #include <RTClib.h>
 
 RTC_DS1307 rtc;
@@ -10,13 +10,13 @@ RTC_DS1307 rtc;
 int protection = 1;
 int returnprot = 1;
 int gameChosen = 0;
-int left_button = 2;
-int right_button = 3;
-int ok_button = 4;
-int cancel_button = 5;
-int down_button = 6;
-int up_button = 7;
-int WCharge = 8;
+const int left_button = 2;
+const int right_button = 3;
+const int ok_button = 4;
+const int cancel_button = 5;
+const int down_button = 6;
+const int up_button = 7;
+const int WCharge = 8;
 
 const int delayint = 200;
 
@@ -30,9 +30,13 @@ void setup() {
   pinMode(cancel_button, OUTPUT);
   pinMode(up_button, OUTPUT);
   pinMode(down_button, OUTPUT);
+  timer = 0;
+  sensors.begin();
 }
 
 void loop() {
+  attachInterrupt(digitalPinToInterrupt(right_button), wakeUp, HIGH);
+  while (timer < 20000) {
   analogBattery = analogRead(A1);
   percent = (analogBattery / 255.0) * 100;
   if (gameChosen == 1){
@@ -273,7 +277,7 @@ void loop() {
       delay(delayint);
     }
     else if (currentState==5){
-      main4();
+      main6();
       delay(delayint);
     }
     else if (currentState==7){
@@ -301,6 +305,10 @@ void loop() {
         protection = 0;
         delay(delayint);
       }
+    }
+    else if (currentState==6){
+      main4();
+      delay(delayint);
     }
   }
   else if (digitalRead(ok_button) == HIGH){
@@ -388,7 +396,7 @@ void loop() {
       main4();
       delay(delayint);
     }
-    else if (currentState==4){
+    else if (currentState==6){
       main5();
       delay(delayint);
     }
@@ -402,6 +410,11 @@ void loop() {
     }
     else if (currentState==12){
       state = state+1;
+      delay(delayint);
+    }
+    else if (currentState==4){
+      sensors.requestTemperatures();
+      main6();
       delay(delayint);
     }
   }
@@ -481,4 +494,8 @@ void loop() {
       delay(delayint);
     }
   }
+  delay(1);
+  timer = timer + 1;
+  }
+  LowPower.powerDown(SLEEP_FOREVER, ADC_OFF, BOD_OFF);
 }
