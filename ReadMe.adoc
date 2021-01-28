@@ -9,6 +9,9 @@
 
 OS for powerbanks
 
+= Note
+As of 28.1.2020, this library is unmaintained, archived and retired at least for 1 year. It will not recieve any updates during that period.
+
 == Step 1: Installation
 Upload all the code to Arduino and you are all done!
 
